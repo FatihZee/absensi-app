@@ -17,7 +17,7 @@ class Employee extends Authenticatable
     protected $fillable = [
         'id', 'name', 'email', 'password',
         'qr_code', 'division_id', 'position_id',
-        'photo', 'is_active',
+        'photo', 'is_active', 'role'
     ];
 
     protected static function boot()

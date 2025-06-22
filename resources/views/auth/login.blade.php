@@ -1,30 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+    <meta charset="UTF-8">
     <title>Login Pegawai</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-light d-flex justify-content-center align-items-center vh-100">
-    <div class="card p-4 shadow" style="min-width: 350px">
-        <h4 class="mb-3 text-center">Login Pegawai</h4>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen px-4">
+
+    <div class="w-full max-w-sm bg-white rounded-xl shadow-md p-6">
+        <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Login Pegawai</h2>
+
         @if(session('error'))
-            <div class="alert alert-danger">{{ session('error') }}</div>
+            <div class="bg-red-100 text-red-700 px-4 py-2 rounded mb-4 text-sm">
+                {{ session('error') }}
+            </div>
         @endif
-        <form method="POST" action="{{ route('login') }}">
+
+        <form method="POST" action="{{ route('login') }}" class="space-y-4">
             @csrf
-            <div class="mb-3">
-                <label>Email</label>
-                <input type="email" name="email" value="{{ old('email') }}" class="form-control" required autofocus>
+
+            <div>
+                <label class="block text-gray-700 mb-1">Email</label>
+                <input type="email" name="email" value="{{ old('email') }}" required autofocus
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
-            <div class="mb-3">
-                <label>Password</label>
-                <input type="password" name="password" class="form-control" required>
+
+            <div>
+                <label class="block text-gray-700 mb-1">Password</label>
+                <input type="password" name="password" required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
+
             @error('email')
-                <div class="text-danger small">{{ $message }}</div>
+                <p class="text-sm text-red-600 -mt-2">{{ $message }}</p>
             @enderror
-            <button type="submit" class="btn btn-primary w-100 mt-3">Login</button>
+
+            <button type="submit"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition">
+                Login
+            </button>
         </form>
     </div>
+
 </body>
 </html>

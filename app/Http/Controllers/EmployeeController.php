@@ -32,6 +32,8 @@ class EmployeeController extends Controller
             'password' => 'required|min:6',
             'division_id' => 'required|exists:divisions,id',
             'position_id' => 'required|exists:positions,id',
+            'role' => 'required|in:admin,employee',
+            'is_active' => 'required|boolean',
         ]);
 
         Employee::create([
@@ -42,7 +44,8 @@ class EmployeeController extends Controller
             'qr_code' => Str::uuid(),
             'division_id' => $request->division_id,
             'position_id' => $request->position_id,
-            'is_active' => true,
+            'role' => $request->role,
+            'is_active' => $request->is_active,
         ]);
 
         return redirect()->route('employees.index')->with('success', 'Pegawai berhasil ditambahkan.');
@@ -62,6 +65,8 @@ class EmployeeController extends Controller
             'email' => 'required|email|unique:employees,email,' . $employee->id,
             'division_id' => 'required|exists:divisions,id',
             'position_id' => 'required|exists:positions,id',
+            'role' => 'required|in:admin,employee',
+            'is_active' => 'required|boolean',
         ]);
 
         $employee->update([
@@ -69,8 +74,15 @@ class EmployeeController extends Controller
             'email' => $request->email,
             'division_id' => $request->division_id,
             'position_id' => $request->position_id,
-            'is_active' => $request->has('is_active'),
+            'role' => $request->role,
+            'is_active' => $request->is_active,
         ]);
+
+        if ($request->filled('password')) {
+            $employee->update([
+                'password' => Hash::make($request->password),
+            ]);
+        }
 
         return redirect()->route('employees.index')->with('success', 'Data pegawai berhasil diupdate.');
     }
@@ -80,7 +92,7 @@ class EmployeeController extends Controller
         $employee->delete();
         return redirect()->route('employees.index')->with('success', 'Pegawai berhasil dihapus.');
     }
-    
+
     public function show(Employee $employee)
     {
         return view('employees.qr', compact('employee'));

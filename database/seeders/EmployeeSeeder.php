@@ -20,6 +20,7 @@ class EmployeeSeeder extends Seeder
             'division_id' => 1,
             'position_id' => 1,
             'is_active' => true,
+            'role' => 'admin',
         ]);
     }
 }
